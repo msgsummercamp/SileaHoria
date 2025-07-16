@@ -10,6 +10,12 @@ public class Main {
 
         messageService.displayMessage();
 
+        Vehicle car = context.getBean(Car.class);
+        car.drive();
+
+        Vehicle truck = context.getBean(Truck.class);
+        truck.drive();
+
         context.close();
     }
 }
