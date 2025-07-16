@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Scanner;
+
 @SpringBootApplication
 public class Main implements CommandLineRunner {
 
@@ -18,6 +20,19 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        mailService.sendMail("toxicplayerh@gmail.com", "Test Subject", "This is a test email body.");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter recipient email: ");
+        String recipient = scanner.nextLine();
+
+        System.out.print("Enter subject: ");
+        String subject = scanner.nextLine();
+
+        System.out.print("Enter email body: ");
+        String body = scanner.nextLine();
+
+        mailService.sendMail(recipient, subject, body);
+
+        scanner.close();
     }
 }
