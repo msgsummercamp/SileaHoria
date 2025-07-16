@@ -19,7 +19,7 @@ public class Main implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter recipient email: ");
@@ -31,7 +31,10 @@ public class Main implements CommandLineRunner {
         System.out.print("Enter email body: ");
         String body = scanner.nextLine();
 
-        mailService.sendMail(recipient, subject, body);
+        System.out.print("Enter file path: ");
+        String filePath = scanner.nextLine();
+
+        mailService.sendMail(recipient, subject, body, filePath);
 
         scanner.close();
     }
