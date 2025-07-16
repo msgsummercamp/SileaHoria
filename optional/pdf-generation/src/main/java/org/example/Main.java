@@ -14,8 +14,12 @@ public class Main {
         System.out.println("Enter the content for the PDF:");
         String content = sc.nextLine();
 
+        System.out.println("Enter the name of the Image file:");
+        String imageName = sc.nextLine();
+
         try {
-            PDFGeneratorService.writeToPDF(name, content);
+            PDFGeneratorService.writeTextToPDF(name, content);
+            PDFGeneratorService.writeImageToPDF(name, imageName);
         } catch (Exception e) {
             System.err.println("An error occurred while generating the PDF: " + e.getMessage());
         } finally {
