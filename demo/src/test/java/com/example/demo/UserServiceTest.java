@@ -23,7 +23,7 @@ public class UserServiceTest {
     private UserService userService;
 
     @Test
-    void shouldReturnAllUsersFromRepository() {
+    void returnAllUsersFromRepository() {
         List<User> mockUsers = List.of(
                 new User(1, "Alice", "alice@gmail.com"),
                 new User(2, "Bob", "bob@gmail.com"),
@@ -37,7 +37,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void shouldReturnUserFilteredById() {
+    void returnUserFilteredById() {
         List<User> mockUsers = List.of(
                 new User(1, "Alice", "alice@gmail.com"),
                 new User(2, "Bob", "bob@gmail.com"),
@@ -54,7 +54,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void shouldReturnEmptyListWhenUserIdNotFound() {
+    void returnEmptyListWhenUserIdNotFound() {
         List<User> mockUsers = List.of(
                 new User(1, "Alice", "alice@gmail.com"),
                 new User(2, "Bob", "bob@gmail.com")
