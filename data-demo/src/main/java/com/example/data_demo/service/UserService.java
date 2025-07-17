@@ -4,6 +4,8 @@ import com.example.data_demo.model.User;
 import com.example.data_demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -16,7 +18,7 @@ public class UserService {
         userRepository.save(new User(username, email, password, firstname, lastname));
     }
 
-    public Iterable<User> findAll() {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
@@ -30,11 +32,15 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
     }
 
-    public void updateUser(Long id, String username, String email, String password, String firstname, String lastname) {
-        userRepository.save(new User(id, username, email, password, firstname, lastname));
+    public User updateUser(Long id, String username, String email, String password, String firstname, String lastname) {
+        return userRepository.save(new User(id, username, email, password, firstname, lastname));
     }
 
-    public void deleteUser(Long id) {
+    public boolean deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            return false;
+        }
         userRepository.deleteById(id);
+        return true;
     }
 }
