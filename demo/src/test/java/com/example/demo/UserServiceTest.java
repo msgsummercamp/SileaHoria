@@ -35,7 +35,7 @@ public class UserServiceTest {
         );
         when(repository.getUsers()).thenReturn(mockUsers);
 
-        List<User> result = userService.getUsers();
+        List<User> result = userService.getUsers(null);
 
         assertEquals(mockUsers, result, "UserService should return all users from the repository");
     }
