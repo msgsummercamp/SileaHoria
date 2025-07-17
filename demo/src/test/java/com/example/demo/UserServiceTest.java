@@ -10,8 +10,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,7 +25,7 @@ public class UserServiceTest {
     private UserService userService;
 
     @Test
-    void returnAllUsersFromRepository() {
+    void test_getUsers_returnsAllUsersFromRepository() {
         List<User> mockUsers = List.of(
                 new User(1, "Alice", "alice@gmail.com"),
                 new User(2, "Bob", "bob@gmail.com"),
@@ -31,13 +33,15 @@ public class UserServiceTest {
         );
         when(repository.getUsers()).thenReturn(mockUsers);
 
-        List<User> result = userService.getUsers();
+        Optional<List<User>> result = userService.getUsers();
 
-        assertEquals(mockUsers, result, "UserService should return all users from the repository");
+        assertTrue(result.isPresent());
+
+        assertEquals(mockUsers, result.get(), "UserService should return all users from the repository");
     }
 
     @Test
-    void returnUserFilteredById() {
+    void test_getUserById_returnsUserFilteredById_whenUserIsFound() {
         List<User> mockUsers = List.of(
                 new User(1, "Alice", "alice@gmail.com"),
                 new User(2, "Bob", "bob@gmail.com"),
@@ -45,24 +49,28 @@ public class UserServiceTest {
         );
         when(repository.getUsers()).thenReturn(mockUsers);
 
-        List<User> result = userService.getUserById(2L);
+        Optional<List<User>> result = userService.getUserById(2L);
 
-        assertEquals(1, result.size());
-        assertEquals("Bob", result.getFirst().username());
-        assertEquals("bob@gmail.com", result.getFirst().email());
-        assertEquals(2, result.getFirst().id());
+        assertTrue(result.isPresent());
+
+        assertEquals(1, result.get().size());
+        assertEquals("Bob", result.get().getFirst().username());
+        assertEquals("bob@gmail.com", result.get().getFirst().email());
+        assertEquals(2, result.get().getFirst().id());
     }
 
     @Test
-    void returnEmptyListWhenUserIdNotFound() {
+    void test_getUserById_returnsEmptyList_whenUserIdNotFound() {
         List<User> mockUsers = List.of(
                 new User(1, "Alice", "alice@gmail.com"),
                 new User(2, "Bob", "bob@gmail.com")
         );
         when(repository.getUsers()).thenReturn(mockUsers);
 
-        List<User> result = userService.getUserById(999L);
+        Optional<List<User>> result = userService.getUserById(999L);
 
-        assertEquals(0, result.size());
+        assertTrue(result.isPresent());
+
+        assertEquals(0, result.get().size());
     }
 }

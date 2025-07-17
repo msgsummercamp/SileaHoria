@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @Validated
 @RestController
@@ -26,14 +27,17 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<List<User>> users(@RequestParam(required = false) @Min(1) Long id) {
         logger.info("Received request for users{}", id != null ? " with id: " + id : "");
+        Optional<List<User>> users;
 
         if (id != null) {
-            List<User> users = service.getUserById(id);
-            if (users.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
-            return ResponseEntity.ok(users);
+            users = service.getUserById(id);
+        } else {
+            users = service.getUsers();
         }
-        return ResponseEntity.ok(service.getUsers());
+
+        if (users.isEmpty() || users.get().isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(users.get());
     }
 }

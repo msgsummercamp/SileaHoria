@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements IService {
@@ -18,16 +19,16 @@ public class UserService implements IService {
     }
 
     @Override
-    public List<User> getUsers() {
+    public Optional<List<User>> getUsers() {
         logger.info("Retrieving all users");
-        return repository.getUsers();
+        return Optional.ofNullable(repository.getUsers());
     }
 
     @Override
-    public List<User> getUserById(Long id) {
+    public Optional<List<User>> getUserById(Long id) {
         logger.info("Filtering users by id: {}", id);
-        return repository.getUsers().stream()
+        return Optional.of(repository.getUsers().stream()
                 .filter(user -> user.id() == id)
-                .toList();
+                .toList());
     }
 }
