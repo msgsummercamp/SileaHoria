@@ -3,7 +3,6 @@ package com.example.demo;
 import com.example.demo.model.User;
 import com.example.demo.repository.IRepository;
 import com.example.demo.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -49,9 +48,9 @@ public class UserServiceTest {
         List<User> result = userService.getUserById(2L);
 
         assertEquals(1, result.size());
-        assertEquals("Bob", result.get(0).username());
-        assertEquals("bob@gmail.com", result.get(0).email());
-        assertEquals(2, result.get(0).id());
+        assertEquals("Bob", result.getFirst().username());
+        assertEquals("bob@gmail.com", result.getFirst().email());
+        assertEquals(2, result.getFirst().id());
     }
 
     @Test
