@@ -5,6 +5,7 @@ import com.example.demo.service.IService;
 import jakarta.validation.constraints.Min;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,9 +24,16 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> users(@RequestParam(required = false) @Min(1) Long id) {
+    public ResponseEntity<List<User>> users(@RequestParam(required = false) @Min(1) Long id) {
         logger.info("Received request for users{}", id != null ? " with id: " + id : "");
 
-        return service.getUsers(id);
+        if (id != null) {
+            List<User> users = service.getUserById(id);
+            if (users.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(users);
+        }
+        return ResponseEntity.ok(service.getUsers());
     }
 }

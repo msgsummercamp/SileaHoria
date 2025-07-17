@@ -17,11 +17,16 @@ class DemoApplicationTests {
 	private MockMvc mockMvc;
 
 	@Test
-	void shouldReturnAllUsers() throws Exception {
+	void testReturnAllUsersSuccess() throws Exception {
 		this.mockMvc.perform(get("/users")).andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(content().contentType("application/json"));
-
 	}
 
+	@Test
+	void testReturn404WhenUserIdNotFound() throws Exception {
+		this.mockMvc.perform(get("/users").param("id", "999"))
+				.andDo(print())
+				.andExpect(status().isNotFound());
+	}
 }
