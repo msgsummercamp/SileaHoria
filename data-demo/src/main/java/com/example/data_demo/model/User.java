@@ -1,9 +1,6 @@
 package com.example.data_demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -16,8 +13,9 @@ import lombok.*;
 @Table(name = "users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "username")
     private String username;
@@ -33,4 +31,12 @@ public class User {
 
     @Column(name = "lastname")
     private String lastname;
+
+    public User(String username, String email, String password, String firstname, String lastname) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
 }
