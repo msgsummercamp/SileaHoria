@@ -20,13 +20,13 @@ public class HttpRequestTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    void usersShouldReturnAllUsers() throws Exception {
+    void usersShouldReturnAllUsers() {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/users", String.class))
                 .contains("Alice", "Bob", "Charlie");
     }
 
     @Test
-    void usersShouldFilterByValidId() throws Exception {
+    void usersShouldFilterByValidId() {
         ResponseEntity<String> response = this.restTemplate.getForEntity(
                 "http://localhost:" + port + "/users?id=1", String.class);
 
@@ -36,7 +36,7 @@ public class HttpRequestTest {
     }
 
     @Test
-    void usersShouldReturnBadRequestForInvalidId() throws Exception {
+    void usersShouldReturnBadRequestForInvalidId() {
         ResponseEntity<String> response = this.restTemplate.getForEntity(
                 "http://localhost:" + port + "/users?id=0", String.class);
 
@@ -44,7 +44,7 @@ public class HttpRequestTest {
     }
 
     @Test
-    void usersShouldReturnBadRequestForNegativeId() throws Exception {
+    void usersShouldReturnBadRequestForNegativeId() {
         ResponseEntity<String> response = this.restTemplate.getForEntity(
                 "http://localhost:" + port + "/users?id=-1", String.class);
 
@@ -52,7 +52,7 @@ public class HttpRequestTest {
     }
 
     @Test
-    void usersShouldReturnEmptyForNonExistentId() throws Exception {
+    void usersShouldReturnEmptyForNonExistentId() {
         ResponseEntity<String> response = this.restTemplate.getForEntity(
                 "http://localhost:" + port + "/users?id=999", String.class);
 

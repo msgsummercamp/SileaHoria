@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.controller.UserController;
 import com.example.demo.model.User;
 import com.example.demo.repository.IRepository;
 import org.slf4j.Logger;
