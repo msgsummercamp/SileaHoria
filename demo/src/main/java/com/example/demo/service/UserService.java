@@ -18,14 +18,16 @@ public class UserService implements IService {
     }
 
     @Override
-    public List<User> getUsers(Long id) {
-        if (id != null) {
-            logger.info("Filtering users by id: {}", id);
-            return repository.getUsers().stream()
-                    .filter(user -> user.id() == id)
-                    .toList();
-        }
+    public List<User> getUsers() {
         logger.info("Retrieving all users");
         return repository.getUsers();
+    }
+
+    @Override
+    public List<User> getUserById(Long id) {
+        logger.info("Filtering users by id: {}", id);
+        return repository.getUsers().stream()
+                .filter(user -> user.id() == id)
+                .toList();
     }
 }

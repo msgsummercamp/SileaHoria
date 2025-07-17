@@ -6,6 +6,7 @@ import com.example.demo.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -19,12 +20,8 @@ public class UserServiceTest {
     @Mock
     private IRepository repository;
 
+    @InjectMocks
     private UserService userService;
-
-    @BeforeEach
-    void setUp() {
-        userService = new UserService(repository);
-    }
 
     @Test
     void shouldReturnAllUsersFromRepository() {
@@ -35,8 +32,38 @@ public class UserServiceTest {
         );
         when(repository.getUsers()).thenReturn(mockUsers);
 
-        List<User> result = userService.getUsers(null);
+        List<User> result = userService.getUsers();
 
         assertEquals(mockUsers, result, "UserService should return all users from the repository");
+    }
+
+    @Test
+    void shouldReturnUserFilteredById() {
+        List<User> mockUsers = List.of(
+                new User(1, "Alice", "alice@gmail.com"),
+                new User(2, "Bob", "bob@gmail.com"),
+                new User(3, "Charlie", "charlie@gmail.com")
+        );
+        when(repository.getUsers()).thenReturn(mockUsers);
+
+        List<User> result = userService.getUserById(2L);
+
+        assertEquals(1, result.size());
+        assertEquals("Bob", result.get(0).username());
+        assertEquals("bob@gmail.com", result.get(0).email());
+        assertEquals(2, result.get(0).id());
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenUserIdNotFound() {
+        List<User> mockUsers = List.of(
+                new User(1, "Alice", "alice@gmail.com"),
+                new User(2, "Bob", "bob@gmail.com")
+        );
+        when(repository.getUsers()).thenReturn(mockUsers);
+
+        List<User> result = userService.getUserById(999L);
+
+        assertEquals(0, result.size());
     }
 }
