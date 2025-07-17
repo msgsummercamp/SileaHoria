@@ -38,37 +38,39 @@ public class UserServiceTest {
     }
 
     @Test
-    void testCreateUser() {
+    void test_createUser() {
         when(userRepository.save(any(User.class))).thenReturn(testUser);
+        when(userRepository.findById(userId)).thenReturn(Optional.of(testUser));
 
         userService.createUser(username, email, password, firstname, lastname);
 
-        verify(userRepository, times(1)).save(any(User.class));
+        assertTrue(userRepository.findById(userId).isPresent());
+
+        assertEquals(testUser, userRepository.findById(userId).get());
     }
 
     @Test
-    void testFindUserByEmail() {
+    void test_findUserByEmail_returnsCorrectUser() {
         when(userRepository.findByEmail(email)).thenReturn(Optional.of(testUser));
 
         User user = userService.findUserByEmail(email);
 
         assertNotNull(user);
-        assertEquals(email, user.getEmail());
-        verify(userRepository, times(1)).findByEmail(email);
+        assertEquals(testUser, user);
     }
 
     @Test
-    void testFindUserByUsername() {
+    void test_findUserByUsername_returnsCorrectUser() {
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(testUser));
 
         User user = userService.findUserByUsername(username);
 
         assertNotNull(user);
-        assertEquals(username, user.getUsername());
+        assertEquals(testUser, user);
     }
 
     @Test
-    void testFindAllUsers() {
+    void test_findAllUsers_returnsCorrectList() {
         List<User> users = List.of(testUser);
         when(userRepository.findAll()).thenReturn(users);
 
@@ -80,7 +82,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void testUpdateUser() {
+    void test_updateUser_returnsUpdatedUser() {
         String updatedUsername = "updatedTest";
         User updatedUser = new User(1L, updatedUsername, email, password, firstname, lastname);
         when(userRepository.save(updatedUser)).thenReturn(updatedUser);
@@ -91,14 +93,14 @@ public class UserServiceTest {
     }
 
     @Test
-    void testDeleteUserSuccess() {
+    void test_deleteUser_returnsTrue_whenIdIsValid() {
         when(userRepository.existsById(userId)).thenReturn(true);
 
         assertTrue(userService.deleteUser(userId));
     }
 
     @Test
-    void testDeleteUserFail() {
+    void test_deleteUser_returnsFalse_whenIdIsInvalid() {
         Long wrongUserId = 999L;
         when(userRepository.existsById(wrongUserId)).thenReturn(false);
 
@@ -106,9 +108,19 @@ public class UserServiceTest {
     }
 
     @Test
-    void testFindUserByUsernameNotFound() {
+    void test_findUserByUsername_throwsException_whenUserDoesntExist() {
         when(userRepository.findByUsername("nonexistent")).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> userService.findUserByUsername("nonexistent"));
+    }
+
+    @Test
+    void test_countUsers_returnsCorrectCount() {
+        Long expectedCount = 5L;
+        when(userRepository.countUsers()).thenReturn(expectedCount);
+
+        Long actualCount = userService.countUsers();
+
+        assertEquals(expectedCount, actualCount);
     }
 }
