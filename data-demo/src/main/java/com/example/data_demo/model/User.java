@@ -7,6 +7,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @ToString
 @EqualsAndHashCode
 @Entity
@@ -17,26 +18,23 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+    @NonNull
     @Column(name = "username")
     private String username;
 
+    @NonNull
     @Column(name = "email")
     private String email;
 
+    @NonNull
     @Column(name = "password")
     private String password;
 
+    @NonNull
     @Column(name = "firstname")
-    private String firstname;
+    private String firstName;
 
+    @NonNull
     @Column(name = "lastname")
-    private String lastname;
-
-    public User(String username, String email, String password, String firstname, String lastname) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
+    private String lastName;
 }

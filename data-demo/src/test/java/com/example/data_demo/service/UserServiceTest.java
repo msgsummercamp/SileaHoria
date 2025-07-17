@@ -93,18 +93,18 @@ public class UserServiceTest {
     }
 
     @Test
-    void test_deleteUser_returnsTrue_whenIdIsValid() {
+    void test_deleteUser_doesNotThrowException_whenIdIsValid() {
         when(userRepository.existsById(userId)).thenReturn(true);
 
-        assertTrue(userService.deleteUser(userId));
+        assertDoesNotThrow(() -> userService.deleteUser(userId));
     }
 
     @Test
-    void test_deleteUser_returnsFalse_whenIdIsInvalid() {
+    void test_deleteUser_throwsException_whenIdIsInvalid() {
         Long wrongUserId = 999L;
         when(userRepository.existsById(wrongUserId)).thenReturn(false);
 
-        assertFalse(userService.deleteUser(wrongUserId));
+        assertThrows(RuntimeException.class, () -> userService.deleteUser(wrongUserId));
     }
 
     @Test

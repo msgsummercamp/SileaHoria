@@ -36,12 +36,11 @@ public class UserService {
         return userRepository.save(new User(id, username, email, password, firstname, lastname));
     }
 
-    public boolean deleteUser(Long id) {
+    public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
-            return false;
+            throw new RuntimeException("User not found with id: " + id);
         }
         userRepository.deleteById(id);
-        return true;
     }
 
     public Long countUsers() {
