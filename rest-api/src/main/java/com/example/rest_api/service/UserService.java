@@ -14,8 +14,19 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void createUser(String username, String email, String password, String firstname, String lastname) {
-        userRepository.save(new User(username, email, password, firstname, lastname));
+    public User createUser(String username, String email, String password, String firstname, String lastname) {
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setEmail(email);
+        newUser.setPassword(password);
+        newUser.setFirstName(firstname);
+        newUser.setLastName(lastname);
+        return userRepository.save(newUser);
+    }
+
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
 
     public List<User> findAll() {

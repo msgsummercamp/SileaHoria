@@ -6,7 +6,6 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -15,23 +14,18 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @NonNull
     @Column(name = "username")
     private String username;
 
-    @NonNull
     @Column(name = "email")
     private String email;
 
-    @NonNull
     @Column(name = "password")
     private String password;
 
-    @NonNull
     @Column(name = "firstname")
     private String firstName;
 
-    @NonNull
     @Column(name = "lastname")
     private String lastName;
 }
