@@ -34,7 +34,16 @@ public class UserService {
     }
 
     public User updateUser(Long id, String username, String email, String password, String firstname, String lastname) {
-        return userRepository.save(new User(id, username, email, password, firstname, lastname));
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+
+        existingUser.setUsername(username);
+        existingUser.setEmail(email);
+        existingUser.setPassword(password);
+        existingUser.setFirstName(firstname);
+        existingUser.setLastName(lastname);
+
+        return userRepository.save(existingUser);
     }
 
     public void deleteUser(Long id) {

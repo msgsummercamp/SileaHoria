@@ -6,9 +6,11 @@ import com.example.rest_api.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequestMapping("/users")
 public class Controller {
     private final UserService userService;
 
@@ -16,34 +18,55 @@ public class Controller {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
-    public List<User> all() {
-        return userService.findAll();
+    @GetMapping()
+    public ResponseEntity<List<User>> all() {
+        List<User> users = userService.findAll();
+
+        if (users.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return  ResponseEntity.ok(users);
     }
 
-    @PostMapping("/create")
-    public User create(@RequestBody UserDTO user) {
-        return userService.createUser(user.username(), user.email(), user.password(), user.firstName(), user.lastName());
-    }
-
-    @PutMapping("/update/{id}")
-    public User update(@PathVariable long id, @RequestBody UserDTO user) {
-        return userService.updateUser(id, user.username(), user.email(), user.password(), user.firstName(), user.lastName());
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
         try {
-            userService.deleteUser(id);
-            return ResponseEntity.ok().build();
+            User user = userService.findById(id);
+
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping()
+    public ResponseEntity<User> create(@RequestBody UserDTO user) {
+        User createdUser = userService.createUser(user.username(), user.email(), user.password(), user.firstName(), user.lastName());
+
+        return handleCreatedResource(createdUser);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> update(@PathVariable long id, @RequestBody UserDTO user) {
+        try {
+            User updatedUser = userService.updateUser(id, user.username(), user.email(), user.password(), user.firstName(), user.lastName());
+
+            return handleCreatedResource(updatedUser);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PatchMapping("/partial-update/{id}")
-    public User partialUpdate(@PathVariable long id, @RequestBody UserDTO user) {
-        User existingUser = userService.findById(id);
+    @PatchMapping("/{id}")
+    public ResponseEntity<User> partialUpdate(@PathVariable long id, @RequestBody UserDTO user) {
+        User existingUser;
+
+        try {
+            existingUser = userService.findById(id);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
 
         if (user.username() != null) {
             existingUser.setUsername(user.username());
@@ -61,8 +84,32 @@ public class Controller {
             existingUser.setLastName(user.lastName());
         }
 
-        return userService.updateUser(id, existingUser.getUsername(), existingUser.getEmail(),
-                                      existingUser.getPassword(), existingUser.getFirstName(),
-                                      existingUser.getLastName());
+        User updatedUser = userService.updateUser(id, existingUser.getUsername(), existingUser.getEmail(),
+                existingUser.getPassword(), existingUser.getFirstName(),
+                existingUser.getLastName());
+
+
+        return handleCreatedResource(updatedUser);
     }
+
+    private ResponseEntity<User> handleCreatedResource(User resource) {
+        if (resource == null) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            URI uri = java.net.URI.create("/users/" + resource.getId());
+            return ResponseEntity.created(uri).body(resource);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id) {
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }
