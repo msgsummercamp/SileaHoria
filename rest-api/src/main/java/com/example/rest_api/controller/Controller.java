@@ -3,6 +3,12 @@ package com.example.rest_api.controller;
 import com.example.rest_api.dto.UserDTO;
 import com.example.rest_api.model.User;
 import com.example.rest_api.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -21,40 +27,100 @@ public class Controller {
         this.userService = userService;
     }
 
+    @Operation(summary = "Get paginated list of users", description = "Returns a paginated list of users.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Page.class))),
+            @ApiResponse(responseCode = "204", description = "No users found")
+    })
     @GetMapping()
-    public ResponseEntity<Page<User>> usersPaginated(@RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<Page<User>> usersPaginated(
+            @Parameter(description = "Page number", example = "0")
+            @RequestParam(defaultValue = "0") int page) {
         Page<User> users = userService.findAll(page);
 
         if (users.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
 
-        return  ResponseEntity.ok(users);
+        return ResponseEntity.ok(users);
     }
 
+    @Operation(summary = "Get user by ID", description = "Returns a user by their ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
+    public ResponseEntity<User> getUser(
+            @Parameter(description = "User ID", example = "1")
+            @PathVariable Long id) {
         User user = userService.findById(id);
 
         return ResponseEntity.ok(user);
     }
 
+    @Operation(summary = "Create a new user", description = "Creates a new user with the provided details.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "User created",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
     @PostMapping()
-    public ResponseEntity<User> create(@RequestBody @Valid UserDTO user) {
+    public ResponseEntity<User> create(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "User details",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = UserDTO.class)))
+            @RequestBody @Valid UserDTO user) {
         User createdUser = userService.createUser(user.username(), user.email(), user.password(), user.firstName(), user.lastName());
 
         return handleCreatedResource(createdUser);
     }
 
+    @Operation(summary = "Update user", description = "Updates an existing user by ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "User updated",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable long id, @RequestBody @Valid UserDTO user) {
+    public ResponseEntity<User> update(
+            @Parameter(description = "User ID", example = "1")
+            @PathVariable long id,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "User details",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = UserDTO.class)))
+            @RequestBody @Valid UserDTO user) {
         User updatedUser = userService.updateUser(id, user.username(), user.email(), user.password(), user.firstName(), user.lastName());
 
         return handleCreatedResource(updatedUser);
     }
 
+    @Operation(summary = "Partially update user", description = "Partially updates an existing user by ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "User updated",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @PatchMapping("/{id}")
-    public ResponseEntity<User> partialUpdate(@PathVariable long id, @RequestBody @Valid UserDTO user) {
+    public ResponseEntity<User> partialUpdate(
+            @Parameter(description = "User ID", example = "1")
+            @PathVariable long id,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Partial user details",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = UserDTO.class)))
+            @RequestBody @Valid UserDTO user) {
         User existingUser;
 
         existingUser = userService.findById(id);
@@ -92,8 +158,15 @@ public class Controller {
         }
     }
 
+    @Operation(summary = "Delete user", description = "Deletes a user by ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User deleted"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(
+            @Parameter(description = "User ID", example = "1")
+            @PathVariable long id) {
         userService.deleteUser(id);
 
         return ResponseEntity.ok().build();
