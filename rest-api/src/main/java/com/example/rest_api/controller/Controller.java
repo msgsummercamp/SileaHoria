@@ -3,13 +3,16 @@ package com.example.rest_api.controller;
 import com.example.rest_api.dto.UserDTO;
 import com.example.rest_api.model.User;
 import com.example.rest_api.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
 @RestController
+@Validated
 @RequestMapping("/users")
 public class Controller {
     private final UserService userService;
@@ -41,14 +44,14 @@ public class Controller {
     }
 
     @PostMapping()
-    public ResponseEntity<User> create(@RequestBody UserDTO user) {
+    public ResponseEntity<User> create(@RequestBody @Valid UserDTO user) {
         User createdUser = userService.createUser(user.username(), user.email(), user.password(), user.firstName(), user.lastName());
 
         return handleCreatedResource(createdUser);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable long id, @RequestBody UserDTO user) {
+    public ResponseEntity<User> update(@PathVariable long id, @RequestBody @Valid UserDTO user) {
         try {
             User updatedUser = userService.updateUser(id, user.username(), user.email(), user.password(), user.firstName(), user.lastName());
 
