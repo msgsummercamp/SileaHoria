@@ -54,7 +54,7 @@ public class Controller {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<User> partialUpdate(@PathVariable long id, @RequestBody UserDTO user) {
+    public ResponseEntity<User> partialUpdate(@PathVariable long id, @RequestBody @Valid UserDTO user) {
         User existingUser;
 
         existingUser = userService.findById(id);
