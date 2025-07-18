@@ -3,11 +3,11 @@ package com.example.rest_api.controller;
 import com.example.rest_api.dto.UserDTO;
 import com.example.rest_api.model.User;
 import com.example.rest_api.service.UserService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -19,8 +19,8 @@ public class Controller {
     }
 
     @GetMapping()
-    public ResponseEntity<List<User>> all() {
-        List<User> users = userService.findAll();
+    public ResponseEntity<Page<User>> usersPaginated(@RequestParam(defaultValue = "0") int page) {
+        Page<User> users = userService.findAll(page);
 
         if (users.isEmpty()) {
             return ResponseEntity.noContent().build();

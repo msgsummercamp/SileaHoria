@@ -2,12 +2,14 @@ package com.example.rest_api.service;
 
 import com.example.rest_api.model.User;
 import com.example.rest_api.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService {
+    private static final int PAGE_SIZE = 4;
+
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
@@ -29,8 +31,8 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public Page<User> findAll(int pageNumber) {
+        return userRepository.findAll(PageRequest.of(pageNumber, PAGE_SIZE));
     }
 
     public User updateUser(Long id, String username, String email, String password, String firstname, String lastname) {
