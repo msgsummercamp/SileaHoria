@@ -1,5 +1,6 @@
 package com.example.rest_api.service;
 
+import com.example.rest_api.exception.NotFoundException;
 import com.example.rest_api.model.User;
 import com.example.rest_api.repository.UserRepository;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,7 @@ public class UserService {
 
     public User findById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
     }
 
     public Page<User> findAll(int pageNumber) {
@@ -37,7 +38,7 @@ public class UserService {
 
     public User updateUser(Long id, String username, String email, String password, String firstname, String lastname) {
         User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
 
         existingUser.setUsername(username);
         existingUser.setEmail(email);
@@ -50,7 +51,7 @@ public class UserService {
 
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User not found with id: " + id);
+            throw new NotFoundException("User not found with id: " + id);
         }
         userRepository.deleteById(id);
     }

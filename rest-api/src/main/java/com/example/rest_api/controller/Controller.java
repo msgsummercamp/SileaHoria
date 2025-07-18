@@ -34,13 +34,9 @@ public class Controller {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
-        try {
-            User user = userService.findById(id);
+        User user = userService.findById(id);
 
-            return ResponseEntity.ok(user);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping()
@@ -52,24 +48,16 @@ public class Controller {
 
     @PutMapping("/{id}")
     public ResponseEntity<User> update(@PathVariable long id, @RequestBody @Valid UserDTO user) {
-        try {
-            User updatedUser = userService.updateUser(id, user.username(), user.email(), user.password(), user.firstName(), user.lastName());
+        User updatedUser = userService.updateUser(id, user.username(), user.email(), user.password(), user.firstName(), user.lastName());
 
-            return handleCreatedResource(updatedUser);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return handleCreatedResource(updatedUser);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<User> partialUpdate(@PathVariable long id, @RequestBody UserDTO user) {
         User existingUser;
 
-        try {
-            existingUser = userService.findById(id);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        existingUser = userService.findById(id);
 
         if (user.username() != null) {
             existingUser.setUsername(user.username());
@@ -106,12 +94,9 @@ public class Controller {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id) {
-        try {
-            userService.deleteUser(id);
-            return ResponseEntity.ok().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        userService.deleteUser(id);
+
+        return ResponseEntity.ok().build();
     }
 
 
