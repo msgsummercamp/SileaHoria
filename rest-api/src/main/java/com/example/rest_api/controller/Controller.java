@@ -2,7 +2,7 @@ package com.example.rest_api.controller;
 
 import com.example.rest_api.dto.UserDTO;
 import com.example.rest_api.model.User;
-import com.example.rest_api.service.UserService;
+import com.example.rest_api.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,9 +21,9 @@ import java.net.URI;
 @Validated
 @RequestMapping("/users")
 public class Controller {
-    private final UserService userService;
+    private final IUserService userService;
 
-    public Controller(UserService userService) {
+    public Controller(IUserService userService) {
         this.userService = userService;
     }
 

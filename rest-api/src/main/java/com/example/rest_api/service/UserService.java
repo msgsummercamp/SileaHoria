@@ -2,18 +2,18 @@ package com.example.rest_api.service;
 
 import com.example.rest_api.exception.NotFoundException;
 import com.example.rest_api.model.User;
-import com.example.rest_api.repository.UserRepository;
+import com.example.rest_api.repository.IUserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class UserService implements IUserService {
     private static final int PAGE_SIZE = 4;
 
-    private final UserRepository userRepository;
+    private final IUserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
