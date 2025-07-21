@@ -81,7 +81,15 @@ public class Controller {
                     required = true,
                     content = @Content(schema = @Schema(implementation = UserDTO.class)))
             @RequestBody @Valid UserDTO user) {
-        User createdUser = userService.createUser(user.username(), user.email(), user.password(), user.firstName(), user.lastName());
+        User createdUser;
+
+        if (user.role() != null) {
+            createdUser = userService.createUser(user.username(), user.email(), user.password(),
+                                               user.firstName(), user.lastName(), user.role().longValue());
+        } else {
+            createdUser = userService.createUser(user.username(), user.email(), user.password(),
+                                               user.firstName(), user.lastName());
+        }
 
         return handleCreatedResource(createdUser);
     }
@@ -104,7 +112,15 @@ public class Controller {
                     required = true,
                     content = @Content(schema = @Schema(implementation = UserDTO.class)))
             @RequestBody @Valid UserDTO user) {
-        User updatedUser = userService.updateUser(id, user.username(), user.email(), user.password(), user.firstName(), user.lastName());
+        User updatedUser;
+
+        if (user.role() != null) {
+            updatedUser = userService.updateUser(id, user.username(), user.email(), user.password(),
+                                                user.firstName(), user.lastName(), user.role().longValue());
+        } else {
+            updatedUser = userService.updateUser(id, user.username(), user.email(), user.password(),
+                                                user.firstName(), user.lastName());
+        }
 
         return handleCreatedResource(updatedUser);
     }
@@ -127,33 +143,26 @@ public class Controller {
                     required = true,
                     content = @Content(schema = @Schema(implementation = UserDTO.class)))
             @RequestBody @Valid UserDTO user) {
-        User existingUser;
+        User existingUser = userService.findById(id);
 
-        existingUser = userService.findById(id);
+        // Build parameters for update, keeping existing values for null fields
+        String username = user.username() != null ? user.username() : existingUser.getUsername();
+        String email = user.email() != null ? user.email() : existingUser.getEmail();
+        String password = user.password() != null ? user.password() : existingUser.getPassword();
+        String firstName = user.firstName() != null ? user.firstName() : existingUser.getFirstName();
+        String lastName = user.lastName() != null ? user.lastName() : existingUser.getLastName();
+        Long roleId = user.role() != null ? user.role().longValue() : null;
 
-        if (user.username() != null) {
-            existingUser.setUsername(user.username());
+        User updatedUser;
+        if (roleId != null) {
+            updatedUser = userService.updateUser(id, username, email, password, firstName, lastName, roleId);
+        } else {
+            updatedUser = userService.updateUser(id, username, email, password, firstName, lastName);
         }
-        if (user.email() != null) {
-            existingUser.setEmail(user.email());
-        }
-        if (user.password() != null) {
-            existingUser.setPassword(user.password());
-        }
-        if (user.firstName() != null) {
-            existingUser.setFirstName(user.firstName());
-        }
-        if (user.lastName() != null) {
-            existingUser.setLastName(user.lastName());
-        }
-
-        User updatedUser = userService.updateUser(id, existingUser.getUsername(), existingUser.getEmail(),
-                existingUser.getPassword(), existingUser.getFirstName(),
-                existingUser.getLastName());
-
 
         return handleCreatedResource(updatedUser);
     }
+
 
     private ResponseEntity<User> handleCreatedResource(User resource) {
         if (resource == null) {

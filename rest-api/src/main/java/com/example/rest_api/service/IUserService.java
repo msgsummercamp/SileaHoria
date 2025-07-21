@@ -8,11 +8,15 @@ import org.springframework.stereotype.Service;
 public interface IUserService {
     User createUser(String username, String email, String password, String firstname, String lastname);
 
+    User createUser(String username, String email, String password, String firstname, String lastname, Long roleId);
+
     User findById(Long id);
 
     Page<User> findAll(int pageNumber);
 
     User updateUser(Long id, String username, String email, String password, String firstname, String lastname);
+
+    User updateUser(Long id, String username, String email, String password, String firstname, String lastname, Long roleId);
 
     void deleteUser(Long id);
 }

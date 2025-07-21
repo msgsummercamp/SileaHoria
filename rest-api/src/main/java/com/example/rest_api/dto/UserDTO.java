@@ -18,5 +18,7 @@ public record UserDTO(
     String firstName,
 
     @Size(max = 50, message = "Last name must not exceed 50 characters")
-    String lastName
+    String lastName,
+
+    Integer role
 ) {}

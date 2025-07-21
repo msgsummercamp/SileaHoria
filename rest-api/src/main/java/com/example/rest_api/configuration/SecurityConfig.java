@@ -41,6 +41,7 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/users", true)
                         .permitAll()
                 )
+                .httpBasic(httpBasic -> httpBasic.realmName("REST API"))
                 .userDetailsService(customUserDetailsService);
         return http.build();
     }
