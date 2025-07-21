@@ -28,4 +28,8 @@ public class User {
 
     @Column(name = "lastname")
     private String lastName;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role role;
 }
