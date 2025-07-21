@@ -25,7 +25,6 @@ public class UserService implements IUserService {
     }
 
     public User createUser(String username, String email, String password, String firstname, String lastname) {
-        // Default role assignment (assuming role ID 2 is USER)
         return createUser(username, email, password, firstname, lastname, 2L);
     }
 
@@ -64,7 +63,6 @@ public class UserService implements IUserService {
         existingUser.setUsername(username);
         existingUser.setEmail(email);
 
-        // Only encode password if it's not already encoded
         if (password != null && !password.startsWith("$2a$")) {
             existingUser.setPassword(passwordEncoder.encode(password));
         } else if (password != null) {

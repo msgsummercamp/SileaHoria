@@ -145,7 +145,6 @@ public class Controller {
             @RequestBody @Valid UserDTO user) {
         User existingUser = userService.findById(id);
 
-        // Build parameters for update, keeping existing values for null fields
         String username = user.username() != null ? user.username() : existingUser.getUsername();
         String email = user.email() != null ? user.email() : existingUser.getEmail();
         String password = user.password() != null ? user.password() : existingUser.getPassword();
