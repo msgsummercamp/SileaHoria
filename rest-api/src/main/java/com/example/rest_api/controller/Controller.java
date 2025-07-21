@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,7 @@ public class Controller {
             @ApiResponse(responseCode = "204", description = "No users found")
     })
     @GetMapping()
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ResponseEntity<Page<User>> usersPaginated(
             @Parameter(description = "Page number", example = "0")
             @RequestParam(defaultValue = "0") int page) {
@@ -55,6 +57,7 @@ public class Controller {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ResponseEntity<User> getUser(
             @Parameter(description = "User ID", example = "1")
             @PathVariable Long id) {
@@ -71,6 +74,7 @@ public class Controller {
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
     @PostMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> create(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "User details",
@@ -91,6 +95,7 @@ public class Controller {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> update(
             @Parameter(description = "User ID", example = "1")
             @PathVariable long id,
@@ -113,6 +118,7 @@ public class Controller {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> partialUpdate(
             @Parameter(description = "User ID", example = "1")
             @PathVariable long id,
@@ -164,6 +170,7 @@ public class Controller {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(
             @Parameter(description = "User ID", example = "1")
             @PathVariable long id) {
