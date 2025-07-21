@@ -2,35 +2,49 @@ package com.example.rest_api.configuration;
 
 import com.example.rest_api.model.User;
 import com.example.rest_api.repository.IUserRepository;
-import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import java.util.Set;
+
+import java.util.Collections;
 
 @Service
-@Data
-public class CustomUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
     @Autowired
     private IUserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        logger.info("Attempting to load user: {}", username);
 
-        Set<GrantedAuthority> authorities = new java.util.HashSet<>(Set.of());
-        authorities.add(new SimpleGrantedAuthority(user.getRole().getRole()));
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found: " + username);
+        }
+
+        logger.info("User found: {} with role: {}", user.getUsername(), user.getRole().getRole());
+
+        String roleName = user.getRole().getRole();
+        if (!roleName.startsWith("ROLE_")) {
+            roleName = "ROLE_" + roleName;
+        }
+
+        logger.info("Final role name: {}", roleName);
+        logger.info("Password hash from database: {}", user.getPassword());
 
         return new org.springframework.security.core.userdetails.User(
-                username,
+                user.getUsername(),
                 user.getPassword(),
-                authorities
+                Collections.singletonList(new SimpleGrantedAuthority(roleName))
         );
-
     }
 }
-
