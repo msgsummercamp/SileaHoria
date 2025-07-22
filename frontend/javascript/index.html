@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Random Dog Gallery</h1>
+    <button id="load-dog" onclick="loadRandomDogFetch()">Show me a dog!(fetch)</button>
+    <div id="loading" style="display: none;">Loading...</div>
+    <img id="dog-image" src="" alt="Random Dog" style="display: none;">
+</body>
+<script>
+    const dogImage = document.getElementById('dog-image');
+    const loadingElement = document.getElementById('loading');
+
+    async function loadRandomDogFetch() {
+        try {
+            loadingElement.style.display = 'block';
+            dogImage.style.display = 'none';
+
+            const response = await fetch('https://dog.ceo/api/breeds/image/random');
+            const data = await response.json();
+            dogImage.src = data.message;
+            
+            loadingElement.style.display = 'none';
+            dogImage.style.display = 'block';
+        } catch (error) {
+            console.error('Error fetching dog image:', error);
+            loadingElement.style.display = 'none';
+        }
+    }
+</script>
+</html>
