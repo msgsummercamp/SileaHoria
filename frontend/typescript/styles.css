@@ -1,0 +1,7 @@
+#loading, #dog-image, #error-message {
+    display: none;
+}
+
+#error-message {
+    color: red;
+}
