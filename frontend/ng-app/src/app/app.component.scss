@@ -1,15 +1,26 @@
 @import "@angular/material/prebuilt-themes/pink-bluegrey.css";
 
-.toolbar-content {
+mat-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
 }
+
+.main {
+  margin-top: 64px;
+}
+
 .toolbar-content .left {
   display: flex;
   flex-grow: 1;
 }
+
 .toolbar-content .right {
   display: flex;
   gap: 8px;
