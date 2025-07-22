@@ -1,31 +1,32 @@
-const dogImage : HTMLImageElement | null = document.getElementById('dog-image') as HTMLImageElement | null;
-const loadingElement : HTMLElement  | null = document.getElementById('loading');
+const dogImage: HTMLImageElement | null = document.querySelector("#dog-image");
+const loadingElement: HTMLElement | null = document.querySelector("#loading");
+const errorElement: HTMLElement | null = document.querySelector("#error");
 
-async function loadRandomDogFetch() : Promise<void> {
-    if (!dogImage || !loadingElement) {
-        console.error('Required elements not found in the document.');
-        return;
-    }
+async function loadRandomDogFetch(): Promise<void> {
+  if (!dogImage || !loadingElement || !errorElement) {
+    console.error("Required elements not found in the document.");
+    return;
+  }
 
-    try {
-        loadingElement.style.display = 'block';
-        dogImage.style.display = 'none';
+  loadingElement.classList.remove('hidden');
+  dogImage.classList.add('hidden');
+  errorElement.classList.add('hidden');
 
-        const response : Response = await fetch('https://dog.ceo/api/breeds/image/random');
-        const data : { message: string } = await response.json();
+  const response: Response | void = await fetch(
+    "https://dog.ceo/api/breeds/image/random"
+  ).catch((_) => {
+    loadingElement.classList.add('hidden');
+    errorElement.classList.remove('hidden');
+  });
 
-        if (!response.ok) {
-            console.error(`HTTP error! status: ${response.status}`);
-            loadingElement.style.display = 'none';
-            return;
-        }
+  if (!response) {
+    return;
+  }
 
-        dogImage.src = data.message;
+  const data: { message: string } = await response.json();
 
-        loadingElement.style.display = 'none';
-        dogImage.style.display = 'block';
-    } catch (error) {
-        console.error('Error fetching dog image:', error);
-        loadingElement.style.display = 'none';
-    }
+  dogImage.src = data.message;
+
+  loadingElement.classList.add('hidden')
+  dogImage.classList.remove('hidden');
 }
