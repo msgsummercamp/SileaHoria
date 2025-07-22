@@ -1,0 +1,10 @@
+#dog-image,
+#loading,
+#error-message {
+  display: none;
+}
+
+#error-message {
+  color: #e74c3c;
+  font-weight: bold;
+}
