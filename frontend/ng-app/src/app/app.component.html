@@ -17,4 +17,10 @@
         </button>
       </div>
   </mat-toolbar>
+  <h1>Random Dog Gallery</h1>
+  <button id="load-dog" (click)="loadRandomDogImage()">Show me a dog! (fetch)</button>
+  <br>
+  <div class="loading" *ngIf="loading()">Loading...</div>
+  <img class="dog-image" *ngIf="data() && !loading()" [src]="data()" alt="Random Dog">
+  <p class="error-message" *ngIf="error()">{{ error() }}</p>
 </main>
