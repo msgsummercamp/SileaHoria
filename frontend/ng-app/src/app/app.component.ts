@@ -12,21 +12,23 @@ type DogResponse = {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MatButton, MatToolbar, NgOptimizedImage, NgIf],
+  imports: [MatButton, MatToolbar, NgOptimizedImage],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title: string = 'ng-app';
+  private readonly httpClient: HttpClient = inject(HttpClient);
 
-  data: WritableSignal<string> = signal('');
-  loading: WritableSignal<boolean> = signal(false);
-  error: WritableSignal<string> = signal('');
-  httpClient: HttpClient = inject(HttpClient);
+  public readonly data: WritableSignal<string> = signal('');
+  public readonly loading: WritableSignal<boolean> = signal(false);
+  public readonly error: WritableSignal<string> = signal('');
 
-  loadRandomDogImage(): void {
+  public readonly title: string = 'ng-app';
+
+  public loadRandomDogImage(): void {
     this.loading.set(true);
     this.error.set('');
+
     this.httpClient
       .get<DogResponse>("https://dog.ceo/api/breeds/image/random")
       .subscribe({
@@ -40,9 +42,9 @@ export class AppComponent {
           }
           this.loading.set(false);
         },
-        error: () => {
+        error: (err: Error) => {
           this.data.set('');
-          this.error.set('Error loading image...');
+          this.error.set('Error loading image: ' + err.message);
           this.loading.set(false);
         }
       });
