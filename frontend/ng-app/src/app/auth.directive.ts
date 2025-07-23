@@ -11,7 +11,11 @@ export class AuthDirective {
 
   constructor() {
     toObservable(this.authStatus).subscribe(authStatus => {
-      this.hostElement.nativeElement.style.display = authStatus ? 'block' : 'none';
-    })
+      if (authStatus) {
+        this.hostElement.nativeElement.classList.remove('hidden');
+      } else {
+        this.hostElement.nativeElement.classList.add('hidden');
+      }
+    });
   }
 }
