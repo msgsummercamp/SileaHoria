@@ -5,6 +5,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.PdfReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,6 +19,8 @@ import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 @Service
 public class PDFGeneratorService {
+    private static final Logger logger = LoggerFactory.getLogger(PDFGeneratorService.class);
+
     @Value("${pdfPath}")
     private String pdfPath;
 
@@ -28,7 +32,8 @@ public class PDFGeneratorService {
         String fullPath = pdfPath + java.io.File.separator + name;
         java.io.File oldFile = new java.io.File(fullPath);
         if (oldFile.exists()) {
-            System.out.println(oldFile.delete());
+            boolean deleted = oldFile.delete();
+            logger.info("Deleted existing PDF file: {}, success: {}", name, deleted);
         }
 
         System.gc();
@@ -87,7 +92,8 @@ public class PDFGeneratorService {
         URL resourceUrl = this.getClass().getClassLoader().getResource(imageName);
         if (resourceUrl == null) {
             document.close();
-            throw new FileNotFoundException("Image file '" + imageName + "' not found in resources directory. Make sure the file is in src/main/resources/");
+            logger.error("Image file '{}' not found in resources directory. Make sure the file is in src/main/resources/", imageName);
+            throw new FileNotFoundException(String.format("Image file '%s' not found in resources directory. Make sure the file is in src/main/resources/", imageName));
         }
 
         try {
@@ -96,6 +102,7 @@ public class PDFGeneratorService {
             document.add(image);
         } catch (Exception e) {
             document.close();
+            logger.error("Failed to add image '{}' to PDF '{}': {}", imageName, name, e.getMessage(), e);
             throw e;
         }
 
