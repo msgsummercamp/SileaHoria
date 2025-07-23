@@ -13,7 +13,7 @@ public interface UserService {
 
     Page<User> findAll(int pageNumber);
 
-    User updateUser(UserDTO userDTO);
+    User updateUser(Long id, UserDTO userDTO);
 
     void deleteUser(Long id);
 }

@@ -50,9 +50,9 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public User updateUser(UserDTO userDTO) {
-        User existingUser = userRepository.findById(userDTO.id())
-                .orElseThrow(() -> new NotFoundException("User not found with id: " + userDTO.id()));
+    public User updateUser(Long id, UserDTO userDTO) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
 
         existingUser.setUsername(userDTO.username());
         existingUser.setEmail(userDTO.email());
