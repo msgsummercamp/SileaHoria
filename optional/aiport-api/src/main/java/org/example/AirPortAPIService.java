@@ -1,5 +1,7 @@
 package org.example;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +13,11 @@ import org.springframework.http.ResponseEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List;;
 
 @Service
 public class AirPortAPIService {
+    private static final Logger logger = LoggerFactory.getLogger(AirPortAPIService.class);
 
     @Value("${airport.api.url}")
     private String apiUrl;
@@ -22,13 +25,13 @@ public class AirPortAPIService {
     @Value("${airport.api.key}")
     private String apiKey;
 
-    @Autowired
     private RestTemplate restTemplate;
 
     private final ObjectMapper objectMapper;
 
-    public AirPortAPIService() {
-        this.objectMapper = new ObjectMapper();
+    public AirPortAPIService(@Autowired ObjectMapper objectMapper, @Autowired RestTemplate restTemplate) {
+        this.objectMapper = objectMapper;
+        this.restTemplate = restTemplate;
     }
 
     public String fetchApiResponse(String airportCode) {
@@ -137,17 +140,17 @@ public class AirPortAPIService {
         }
 
         for (AirportInfo airport : airports) {
-            System.out.println("========================================");
-            System.out.println("Airport: " + airport.getName());
-            System.out.println("IATA Code: " + airport.getIata());
-            System.out.println("ICAO Code: " + airport.getIcao());
-            System.out.println("City: " + airport.getCity());
-            System.out.println("Country: " + airport.getCountry());
-            System.out.println("Region: " + airport.getRegion());
-            System.out.println("Elevation: " + airport.getElevationFt() + " ft");
-            System.out.println("Coordinates: " + airport.getLatitude() + ", " + airport.getLongitude());
-            System.out.println("Timezone: " + airport.getTimezone());
-            System.out.println("========================================");
+            logger.info("========================================");
+            logger.info("Airport: {}", airport.getName());
+            logger.info("IATA Code: {}", airport.getIata());
+            logger.info("ICAO Code: {}", airport.getIcao());
+            logger.info("City: {}", airport.getCity());
+            logger.info("Country: {}", airport.getCountry());
+            logger.info("Region: {}", airport.getRegion());
+            logger.info("Elevation: {} ft", airport.getElevationFt());
+            logger.info("Coordinates: {}, {}", airport.getLatitude(), airport.getLongitude());
+            logger.info("Timezone: {}", airport.getTimezone());
+            logger.info("========================================");
         }
     }
 
