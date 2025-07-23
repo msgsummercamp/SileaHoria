@@ -9,7 +9,7 @@
         </button>
       </div>
       <div class="right">
-        <button mat-flat-button>
+        <button mat-flat-button (click)="handleLogin()">
           <img ngSrc="account_box.png" alt="Account Icon" height="24" width="24">
         </button>
         <button mat-flat-button>
@@ -29,4 +29,5 @@
   @if (error()) {
     <p class="error-message">{{ error() }}</p>
   }
+  <app-not-found auth [authStatus]='loggedIn()'/>
 </main>

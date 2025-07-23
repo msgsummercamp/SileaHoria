@@ -6,8 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './not-found.component.html',
   styleUrl: './not-found.component.scss'
 })
-export class NotFoundComponent {
-  ngOnInit(): void {
-    alert("Page not found!");
-  }
-}
+export class NotFoundComponent {}

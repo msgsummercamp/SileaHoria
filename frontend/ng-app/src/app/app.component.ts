@@ -1,8 +1,10 @@
-import {Component, inject, signal, WritableSignal} from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatToolbar} from "@angular/material/toolbar";
-import {NgIf, NgOptimizedImage} from "@angular/common";
-import {HttpClient} from "@angular/common/http";
+import { NgOptimizedImage } from "@angular/common";
+import { HttpClient } from "@angular/common/http";
+import { NotFoundComponent } from "./not-found/not-found.component";
+import {AuthDirective} from "./auth.directive";
 
 type DogResponse = {
   status: string;
@@ -12,7 +14,7 @@ type DogResponse = {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MatButton, MatToolbar, NgOptimizedImage],
+  imports: [MatButton, MatToolbar, NgOptimizedImage, NotFoundComponent, AuthDirective],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -22,8 +24,13 @@ export class AppComponent {
   public readonly data: WritableSignal<string> = signal('');
   public readonly loading: WritableSignal<boolean> = signal(false);
   public readonly error: WritableSignal<string> = signal('');
+  public readonly loggedIn: WritableSignal<boolean> = signal(false);
 
   public readonly title: string = 'ng-app';
+
+  public handleLogin(): void {
+    this.loggedIn.set(!this.loggedIn());
+  }
 
   public loadRandomDogImage(): void {
     this.loading.set(true);
