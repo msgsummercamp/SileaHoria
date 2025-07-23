@@ -1,20 +1,17 @@
 package org.example.service;
 
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
 
 @Service
+@AllArgsConstructor
 public class PDFHelperService {
     private static final Logger logger = LoggerFactory.getLogger(PDFHelperService.class);
     private final PDFGeneratorService pdfGeneratorService;
-
-    public PDFHelperService(@Autowired PDFGeneratorService pdfGeneratorService) {
-        this.pdfGeneratorService = pdfGeneratorService;
-    }
 
     public void createNewPDF(Scanner sc) {
         try {

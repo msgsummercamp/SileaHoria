@@ -35,6 +35,12 @@
             <artifactId>spring-boot-starter</artifactId>
             <version>3.4.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.38</version>
+            <scope>annotationProcessor</scope>
+        </dependency>
     </dependencies>
 
 </project>
