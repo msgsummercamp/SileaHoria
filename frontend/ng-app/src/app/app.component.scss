@@ -11,11 +11,7 @@ mat-toolbar {
   background-color: var(--mat-sys-primary-container);
 }
 
-mat-flat-button {
-  color: var(--mat-sys-on-primary-container);
-}
-
-a {
+button {
   text-decoration: none;
   color: inherit;
   display: flex;
@@ -23,7 +19,7 @@ a {
   justify-content: center;
 }
 
-a img {
+img {
   display: flex;
 }
 
@@ -43,5 +39,5 @@ a img {
 }
 
 .active-link {
-  color: powderblue;
+  background-color: var(--mat-sys-secondary) !important;
 }
