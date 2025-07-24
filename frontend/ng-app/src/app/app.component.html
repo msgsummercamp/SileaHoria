@@ -1,32 +1,45 @@
 <main class="main" id="top">
-  <mat-toolbar >
-      <div class="left">
-        <button mat-flat-button>
-          <a href="#top">Home</a>
-        </button>
-        <button mat-flat-button>
-          <a href="https://www.google.com">Google</a>
-        </button>
-      </div>
-      <div class="right">
-        <button mat-flat-button>
-          <img ngSrc="account_box.png" alt="Account Icon" height="24" width="24">
-        </button>
-        <button mat-flat-button>
-          <img ngSrc="shopping_cart.png" alt="Account Icon" height="24" width="24">
-        </button>
-      </div>
+  <mat-toolbar>
+    <div class="left">
+      <button mat-flat-button>
+        <a href="#top">Home</a>
+      </button>
+      <button mat-flat-button>
+        <a href="https://www.google.com">Google</a>
+      </button>
+    </div>
+    <div class="right">
+      <button mat-flat-button (click)="handleLogin()">
+        <img
+          ngSrc="account_box.png"
+          alt="Account Icon"
+          height="24"
+          width="24"
+        />
+      </button>
+      <button mat-flat-button>
+        <img
+          ngSrc="shopping_cart.png"
+          alt="Account Icon"
+          height="24"
+          width="24"
+        />
+      </button>
+    </div>
   </mat-toolbar>
   <h1>Random Dog Gallery</h1>
-  <button id="load-dog" (click)="loadRandomDogImage()">Show me a dog! (fetch)</button>
-  <br>
+  <button id="load-dog" (click)="loadRandomDogImage()">
+    Show me a dog! (fetch)
+  </button>
+  <br />
   @if (loading()) {
     <p>Loading...</p>
   }
   @if (data() && !loading()) {
-    <img [src]="data()" alt="Random Dog">
+    <img [src]="data()" alt="Random Dog" />
   }
   @if (error()) {
     <p class="error-message">{{ error() }}</p>
   }
+  <app-not-found [authStatus]="loggedIn()" />
 </main>
