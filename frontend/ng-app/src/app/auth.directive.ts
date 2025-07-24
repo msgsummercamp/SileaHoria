@@ -17,7 +17,9 @@ export class AuthDirective {
 
   constructor() {
     effect(() => {
-      this.hostElement.nativeElement.hidden = !this.authStatus();
+      const loggedIn: boolean = this.authStatus();
+
+      this.hostElement.nativeElement.hidden = !loggedIn;
     });
   }
 }
