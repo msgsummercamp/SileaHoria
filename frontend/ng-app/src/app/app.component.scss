@@ -11,7 +11,7 @@ mat-toolbar {
   background-color: var(--mat-sys-primary-container);
 }
 
-mat-button {
+mat-flat-button {
   color: var(--mat-sys-on-primary-container);
 }
 
@@ -35,9 +35,6 @@ a {
   gap: 8px;
 }
 
-button {
-  ::ng-deep .mdc-button__label {
-    display: flex;
-    align-items: center;
-  }
+.active-link {
+  color: powderblue;
 }

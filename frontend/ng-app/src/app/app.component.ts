@@ -2,12 +2,19 @@ import { Component, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatToolbar } from '@angular/material/toolbar';
 import { NgOptimizedImage } from '@angular/common';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MatButton, MatToolbar, NgOptimizedImage, RouterLink, RouterOutlet],
+  imports: [
+    MatButton,
+    MatToolbar,
+    NgOptimizedImage,
+    RouterLink,
+    RouterOutlet,
+    RouterLinkActive,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
