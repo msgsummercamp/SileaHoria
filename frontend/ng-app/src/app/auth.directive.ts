@@ -1,11 +1,11 @@
 import {
   Directive,
+  effect,
   ElementRef,
   inject,
   input,
   InputSignal,
 } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
 
 @Directive({
   selector: '[authStatus]',
@@ -16,12 +16,8 @@ export class AuthDirective {
   public readonly authStatus: InputSignal<boolean> = input.required<boolean>();
 
   constructor() {
-    toObservable(this.authStatus).subscribe((authStatus) => {
-      if (authStatus) {
-        this.hostElement.nativeElement.classList.remove('hidden');
-      } else {
-        this.hostElement.nativeElement.classList.add('hidden');
-      }
+    effect(() => {
+      this.hostElement.nativeElement.hidden = !this.authStatus();
     });
   }
 }
