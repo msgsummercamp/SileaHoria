@@ -1,9 +1,9 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
-import { MatButton } from '@angular/material/button';
-import { MatToolbar} from "@angular/material/toolbar";
-import { NgOptimizedImage } from "@angular/common";
-import { HttpClient } from "@angular/common/http";
-import { NotFoundComponent } from "./not-found/not-found.component";
+import {Component, inject, signal} from '@angular/core';
+import {MatButton} from '@angular/material/button';
+import {MatToolbar} from "@angular/material/toolbar";
+import {NgOptimizedImage} from "@angular/common";
+import {HttpClient} from "@angular/common/http";
+import {NotFoundComponent} from "./not-found/not-found.component";
 import {AuthDirective} from "./auth.directive";
 
 type DogResponse = {
@@ -21,10 +21,10 @@ type DogResponse = {
 export class AppComponent {
   private readonly httpClient: HttpClient = inject(HttpClient);
 
-  public readonly data: WritableSignal<string> = signal('');
-  public readonly loading: WritableSignal<boolean> = signal(false);
-  public readonly error: WritableSignal<string> = signal('');
-  public readonly loggedIn: WritableSignal<boolean> = signal(false);
+  public readonly data = signal<string>('');
+  public readonly loading = signal<boolean>(false);
+  public readonly error = signal<string>('');
+  public readonly loggedIn = signal<boolean>(false);
 
   public readonly title: string = 'ng-app';
 

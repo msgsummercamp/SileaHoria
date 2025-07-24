@@ -2,7 +2,7 @@ import {Directive, ElementRef, inject, input, InputSignal} from '@angular/core';
 import {toObservable} from "@angular/core/rxjs-interop";
 
 @Directive({
-  selector: '[auth]'
+  selector: '[authStatus]'
 })
 export class AuthDirective {
   private readonly hostElement: ElementRef<HTMLElement> = inject(ElementRef);
