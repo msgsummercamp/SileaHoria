@@ -2,6 +2,7 @@
 <button mat-flat-button id="load-dog" (click)="loadRandomDogImage()">
   Show me a dog! (fetch)
 </button>
+<p>You clicked this {{ timesClicked() | times }}!</p>
 <br />
 @if (loading()) {
   <p>Loading...</p>
