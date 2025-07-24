@@ -1,22 +1,28 @@
-import {Component, inject, signal} from '@angular/core';
-import {MatButton} from '@angular/material/button';
-import {MatToolbar} from "@angular/material/toolbar";
-import {NgOptimizedImage} from "@angular/common";
-import {HttpClient} from "@angular/common/http";
-import {NotFoundComponent} from "./not-found/not-found.component";
-import {AuthDirective} from "./auth.directive";
+import { Component, inject, signal } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatToolbar } from '@angular/material/toolbar';
+import { NgOptimizedImage } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { AuthDirective } from './auth.directive';
 
 type DogResponse = {
   status: string;
   message: string;
-}
+};
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MatButton, MatToolbar, NgOptimizedImage, NotFoundComponent, AuthDirective],
+  imports: [
+    MatButton,
+    MatToolbar,
+    NgOptimizedImage,
+    NotFoundComponent,
+    AuthDirective,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   private readonly httpClient: HttpClient = inject(HttpClient);
@@ -37,7 +43,7 @@ export class AppComponent {
     this.error.set('');
 
     this.httpClient
-      .get<DogResponse>("https://dog.ceo/api/breeds/image/random")
+      .get<DogResponse>('https://dog.ceo/api/breeds/image/random')
       .subscribe({
         next: (response: DogResponse) => {
           if (response.status === 'success') {
@@ -53,7 +59,7 @@ export class AppComponent {
           this.data.set('');
           this.error.set('Error loading image: ' + err.message);
           this.loading.set(false);
-        }
+        },
       });
   }
 }
