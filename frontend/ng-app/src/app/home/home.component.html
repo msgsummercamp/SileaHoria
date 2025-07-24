@@ -1,0 +1,14 @@
+<h1>Random Dog Gallery</h1>
+<button id="load-dog" (click)="loadRandomDogImage()">
+  Show me a dog! (fetch)
+</button>
+<br />
+@if (loading()) {
+  <p>Loading...</p>
+}
+@if (data() && !loading()) {
+  <img [src]="data()" alt="Random Dog" />
+}
+@if (error()) {
+  <p class="error-message">{{ error() }}</p>
+}
