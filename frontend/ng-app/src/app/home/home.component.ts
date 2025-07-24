@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { MatButton } from '@angular/material/button';
 
 type DogResponse = {
   status: string;
@@ -8,7 +9,7 @@ type DogResponse = {
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [MatButton],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
