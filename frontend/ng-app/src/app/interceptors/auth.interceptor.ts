@@ -1,5 +1,4 @@
-import { HttpEventType, HttpInterceptorFn } from '@angular/common/http';
-import { tap } from 'rxjs';
+import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const skipUrls = ['https://dog.ceo/api/breeds/image/random'];
@@ -14,17 +13,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       Authorization: 'Bearer token',
     },
   });
-  return next(cloned).pipe(
-    tap((event) => {
-      if (event.type === HttpEventType.Response) {
-        if (event.ok) {
-          console.log('Request successful:', event);
-        } else {
-          console.error('Request failed:', event);
-        }
-      }
 
-      return event;
-    }),
-  );
+  return next(cloned);
 };
