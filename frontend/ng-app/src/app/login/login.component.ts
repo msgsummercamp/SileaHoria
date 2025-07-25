@@ -8,6 +8,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import {
+  MatError,
+  MatFormField,
+  MatInput,
+  MatLabel,
+} from '@angular/material/input';
 
 type LogInForm = {
   email: FormControl<string>;
@@ -16,7 +22,15 @@ type LogInForm = {
 
 @Component({
   selector: 'app-login',
-  imports: [MatButton, AuthDirective, ReactiveFormsModule],
+  imports: [
+    MatButton,
+    AuthDirective,
+    ReactiveFormsModule,
+    MatInput,
+    MatFormField,
+    MatLabel,
+    MatError,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

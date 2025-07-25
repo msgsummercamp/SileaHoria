@@ -1,29 +1,31 @@
 <h1>Login/Logout</h1>
 @if (!loggedIn()) {
   <form [formGroup]="loginFormGroup" (ngSubmit)="onFormSubmit()">
-    <label for="email">Email:</label>
-    <input type="text" id="email" formControlName="email" />
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Email</mat-label>
+      <input matInput type="text" formControlName="email" />
 
-    @if (loginFormGroup.controls.email.hasError("required")) {
-      <small class="error-message"> An email is required. </small>
-    }
+      @if (loginFormGroup.controls.email.hasError("required")) {
+        <mat-error> An email is required. </mat-error>
+      }
 
-    @if (loginFormGroup.controls.email.hasError("email")) {
-      <small class="error-message"> A valid email is required. </small>
-    }
+      @if (loginFormGroup.controls.email.hasError("email")) {
+        <mat-error> A valid email is required. </mat-error>
+      }
+    </mat-form-field>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" formControlName="password" />
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Password:</mat-label>
+      <input matInput type="password" formControlName="password" />
 
-    @if (loginFormGroup.controls.password.hasError("required")) {
-      <small class="error-message"> A password is required. </small>
-    }
+      @if (loginFormGroup.controls.password.hasError("required")) {
+        <mat-error> A password is required. </mat-error>
+      }
 
-    @if (loginFormGroup.controls.password.hasError("minlength")) {
-      <small class="error-message">
-        Password must have at least 6 characters.
-      </small>
-    }
+      @if (loginFormGroup.controls.password.hasError("minlength")) {
+        <mat-error> Password must have at least 6 characters. </mat-error>
+      }
+    </mat-form-field>
 
     <button mat-flat-button type="submit" [disabled]="loginFormGroup.invalid">
       Login

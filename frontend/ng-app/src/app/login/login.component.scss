@@ -7,9 +7,9 @@ form {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
 
-form * {
-  display: flex;
-  margin: 5px;
+  mat-form-field {
+    width: clamp(300px, 30%, 40%);
+    margin-bottom: 1rem;
+  }
 }
