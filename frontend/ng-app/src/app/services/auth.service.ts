@@ -4,19 +4,13 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly _loggedIn = signal<boolean>(false);
-
-  public readonly loggedIn = this._loggedIn.asReadonly();
+  public readonly loggedIn = signal<boolean>(false);
 
   public login() {
-    this._loggedIn.set(true);
+    this.loggedIn.set(true);
   }
 
   public logout() {
-    this._loggedIn.set(false);
-  }
-
-  public isAuthenticated(): boolean {
-    return this._loggedIn();
+    this.loggedIn.set(false);
   }
 }

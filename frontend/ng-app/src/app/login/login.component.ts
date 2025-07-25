@@ -1,4 +1,4 @@
-import { Component, inject, Signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { AuthService } from '../services/auth.service';
 import { AuthDirective } from '../auth.directive';
@@ -12,7 +12,7 @@ import { AuthDirective } from '../auth.directive';
 export class LoginComponent {
   private authService: AuthService = inject(AuthService);
 
-  public readonly loggedIn: Signal<boolean> = this.authService.loggedIn;
+  public readonly loggedIn = this.authService.loggedIn;
 
   public handleLogin() {
     this.authService.login();
