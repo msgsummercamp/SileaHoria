@@ -4,17 +4,25 @@
     <label for="email">Email:</label>
     <input type="text" id="email" formControlName="email" />
 
-    @if (loginFormGroup.controls["email"].invalid) {
-      <small class="error-message">A valid email is required.</small>
+    @if (loginFormGroup.controls.email.hasError("required")) {
+      <small class="error-message"> An email is required. </small>
+    }
+
+    @if (loginFormGroup.controls.email.hasError("email")) {
+      <small class="error-message"> A valid email is required. </small>
     }
 
     <label for="password">Password:</label>
     <input type="password" id="password" formControlName="password" />
 
-    @if (loginFormGroup.controls["password"].invalid) {
-      <small class="error-message"
-        >A password of minimum length 6 is required.</small
-      >
+    @if (loginFormGroup.controls.password.hasError("required")) {
+      <small class="error-message"> A password is required. </small>
+    }
+
+    @if (loginFormGroup.controls.password.hasError("minlength")) {
+      <small class="error-message">
+        Password must have at least 6 characters.
+      </small>
     }
 
     <button mat-flat-button type="submit" [disabled]="loginFormGroup.invalid">

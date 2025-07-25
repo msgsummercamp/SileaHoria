@@ -4,7 +4,6 @@ import { AuthService } from '../services/auth.service';
 import { AuthDirective } from '../auth.directive';
 import {
   FormControl,
-  FormGroup,
   NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
@@ -25,17 +24,16 @@ export class LoginComponent {
   private readonly authService = inject(AuthService);
   private readonly formBuilder = inject(NonNullableFormBuilder);
 
-  protected readonly loginFormGroup: FormGroup =
-    this.formBuilder.group<LogInForm>({
-      email: this.formBuilder.control('', [
-        Validators.required,
-        Validators.email,
-      ]),
-      password: this.formBuilder.control('', [
-        Validators.required,
-        Validators.minLength(6),
-      ]),
-    });
+  protected readonly loginFormGroup = this.formBuilder.group<LogInForm>({
+    email: this.formBuilder.control('', [
+      Validators.required,
+      Validators.email,
+    ]),
+    password: this.formBuilder.control('', [
+      Validators.required,
+      Validators.minLength(6),
+    ]),
+  });
 
   public readonly loggedIn: Signal<boolean> = this.authService.loggedIn;
 
@@ -53,4 +51,6 @@ export class LoginComponent {
   public handleLogout() {
     this.authService.logout();
   }
+
+  protected readonly toString = toString;
 }
