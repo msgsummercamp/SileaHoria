@@ -2,6 +2,14 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
+type responseType = {
+  token: string;
+  user: {
+    id: number;
+    role: string;
+  };
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -14,10 +22,9 @@ export class AuthService {
 
   public login(username: string, password: string) {
     this.http
-      .post(this.API_URL + '/auth/login', { username, password })
+      .post<responseType>(this.API_URL + '/auth/login', { username, password })
       .subscribe({
-        next: (response: any) => {
-          console.log('Login successful:', response);
+        next: (response) => {
           localStorage.setItem('token', response.token);
           this.isLoggedIn.set(true);
           this.router.navigate(['/home']);

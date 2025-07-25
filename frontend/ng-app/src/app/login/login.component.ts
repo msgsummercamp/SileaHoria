@@ -51,7 +51,6 @@ export class LoginComponent {
   public onFormSubmit() {
     if (this.loginFormGroup.valid) {
       this.handleLogin();
-      console.log(this.loginFormGroup.getRawValue());
     }
   }
 
