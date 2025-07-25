@@ -1,45 +1,26 @@
 <main class="main" id="top">
   <mat-toolbar>
     <div class="left">
-      <button mat-flat-button>
-        <a href="#top">Home</a>
-      </button>
-      <button mat-flat-button>
-        <a href="https://www.google.com">Google</a>
+      <button mat-flat-button routerLink="/home" routerLinkActive="active-link">
+        Home
       </button>
     </div>
     <div class="right">
-      <button mat-flat-button (click)="handleLogin()">
-        <img
-          ngSrc="account_box.png"
-          alt="Account Icon"
-          height="24"
-          width="24"
-        />
+      <button
+        mat-flat-button
+        routerLink="/login"
+        routerLinkActive="active-link"
+      >
+        <img ngSrc="account_box.png" alt="account" height="20" width="20" />
       </button>
-      <button mat-flat-button>
-        <img
-          ngSrc="shopping_cart.png"
-          alt="Account Icon"
-          height="24"
-          width="24"
-        />
+      <button
+        mat-flat-button
+        routerLink="/shopping-cart"
+        routerLinkActive="active-link"
+      >
+        <img ngSrc="shopping_cart.png" alt="cart" height="20" width="20" />
       </button>
     </div>
   </mat-toolbar>
-  <h1>Random Dog Gallery</h1>
-  <button id="load-dog" (click)="loadRandomDogImage()">
-    Show me a dog! (fetch)
-  </button>
-  <br />
-  @if (loading()) {
-    <p>Loading...</p>
-  }
-  @if (data() && !loading()) {
-    <img [src]="data()" alt="Random Dog" />
-  }
-  @if (error()) {
-    <p class="error-message">{{ error() }}</p>
-  }
-  <app-not-found [authStatus]="loggedIn()" />
+  <router-outlet></router-outlet>
 </main>
