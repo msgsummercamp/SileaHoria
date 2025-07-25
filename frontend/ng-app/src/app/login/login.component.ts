@@ -75,6 +75,4 @@ export class LoginComponent {
   public handleLogin() {
     this.authService.login();
   }
-
-  protected readonly toString = toString;
 }
