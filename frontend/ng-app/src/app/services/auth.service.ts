@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   private router = inject(Router);
 
-  public readonly loggedIn = signal<boolean>(false);
+  public readonly loggedIn = signal(false);
 
   public login() {
     this.loggedIn.set(true);
