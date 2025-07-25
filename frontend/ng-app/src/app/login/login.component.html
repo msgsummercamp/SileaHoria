@@ -1,4 +1,27 @@
 <h1>Login/Logout</h1>
-<button mat-flat-button (click)="handleLogin()">Login</button>
-<button mat-flat-button (click)="handleLogout()">Logout</button>
+@if (!loggedIn()) {
+  <form [formGroup]="loginFormGroup" (ngSubmit)="onFormSubmit()">
+    <label for="email">Email:</label>
+    <input type="text" id="email" formControlName="email" />
+
+    @if (loginFormGroup.controls["email"].invalid) {
+      <small class="error-message">A valid email is required.</small>
+    }
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" formControlName="password" />
+
+    @if (loginFormGroup.controls["password"].invalid) {
+      <small class="error-message"
+        >A password of minimum length 6 is required.</small
+      >
+    }
+
+    <button mat-flat-button type="submit" [disabled]="loginFormGroup.invalid">
+      Login
+    </button>
+  </form>
+} @else {
+  <button mat-flat-button (click)="handleLogout()">Logout</button>
+}
 <p [authStatus]="loggedIn()">You are logged in!</p>
