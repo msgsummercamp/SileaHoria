@@ -1,5 +1,16 @@
+@use "@angular/material" as mat;
+
 .error-message {
   color: red;
+}
+
+mat-card {
+  margin: 0 auto;
+  width: clamp(300px, 30%, 40%);
+}
+
+mat-card-header {
+  justify-content: center;
 }
 
 form {
@@ -7,9 +18,14 @@ form {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
+}
 
-  mat-form-field {
-    width: clamp(300px, 30%, 40%);
-    margin-bottom: 1rem;
-  }
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+mat-card-content {
+  gap: 1rem;
 }

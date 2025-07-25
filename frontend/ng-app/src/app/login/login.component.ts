@@ -14,6 +14,14 @@ import {
   MatInput,
   MatLabel,
 } from '@angular/material/input';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardFooter,
+  MatCardHeader,
+  MatCardTitle,
+} from '@angular/material/card';
 
 type LogInForm = {
   email: FormControl<string>;
@@ -30,6 +38,12 @@ type LogInForm = {
     MatFormField,
     MatLabel,
     MatError,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatCardActions,
+    MatCardFooter,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -60,10 +74,6 @@ export class LoginComponent {
 
   public handleLogin() {
     this.authService.login();
-  }
-
-  public handleLogout() {
-    this.authService.logout();
   }
 
   protected readonly toString = toString;
