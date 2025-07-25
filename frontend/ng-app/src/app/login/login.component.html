@@ -6,15 +6,11 @@
   <form [formGroup]="loginFormGroup" (ngSubmit)="onFormSubmit()">
     <mat-card-content>
       <mat-form-field subscriptSizing="dynamic">
-        <mat-label>Email</mat-label>
-        <input matInput type="text" formControlName="email" />
+        <mat-label>Username</mat-label>
+        <input matInput type="text" formControlName="username" />
 
-        @if (loginFormGroup.controls.email.hasError("required")) {
-          <mat-error> An email is required. </mat-error>
-        }
-
-        @if (loginFormGroup.controls.email.hasError("email")) {
-          <mat-error> Email must have a valid format. </mat-error>
+        @if (loginFormGroup.controls.username.hasError("required")) {
+          <mat-error> A username is required. </mat-error>
         }
       </mat-form-field>
 

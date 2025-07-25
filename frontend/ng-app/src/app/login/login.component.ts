@@ -22,7 +22,7 @@ import {
 } from '@angular/material/card';
 
 type LogInForm = {
-  email: FormControl<string>;
+  username: FormControl<string>;
   password: FormControl<string>;
 };
 
@@ -56,14 +56,14 @@ export class LoginComponent {
   }
 
   public handleLogin() {
-    this.authService.login();
+    this.authService.login(
+      this.loginFormGroup.controls.username.value,
+      this.loginFormGroup.controls.password.value,
+    );
   }
 
   protected readonly loginFormGroup = this.formBuilder.group<LogInForm>({
-    email: this.formBuilder.control('', [
-      Validators.required,
-      Validators.email,
-    ]),
+    username: this.formBuilder.control('', [Validators.required]),
     password: this.formBuilder.control('', [
       Validators.required,
       Validators.minLength(6),
