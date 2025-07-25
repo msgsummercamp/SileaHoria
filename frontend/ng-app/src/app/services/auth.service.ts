@@ -1,16 +1,20 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  public readonly loggedIn = signal<boolean>(false);
+  public readonly isLoggedIn = signal(false);
+
+  private router = inject(Router);
 
   public login() {
-    this.loggedIn.set(true);
+    this.isLoggedIn.set(true);
+    this.router.navigate(['/home']);
   }
 
   public logout() {
-    this.loggedIn.set(false);
+    this.isLoggedIn.set(false);
   }
 }

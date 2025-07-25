@@ -11,9 +11,9 @@ import {
   selector: '[authStatus]',
 })
 export class AuthDirective {
-  private readonly hostElement: ElementRef<HTMLElement> = inject(ElementRef);
-
   public readonly authStatus: InputSignal<boolean> = input.required<boolean>();
+
+  private readonly hostElement: ElementRef<HTMLElement> = inject(ElementRef);
 
   constructor() {
     effect(() => {

@@ -1,0 +1,32 @@
+<mat-toolbar>
+  <div>
+    <button mat-flat-button routerLink="/home" routerLinkActive="active-link">
+      Home
+    </button>
+  </div>
+  <div>
+    <button
+      mat-icon-button
+      routerLink="/account"
+      routerLinkActive="active-link"
+      [authStatus]="isLoggedIn()"
+    >
+      <mat-icon fontIcon="account_circle" />
+    </button>
+    <button
+      mat-icon-button
+      routerLink="/shopping-cart"
+      routerLinkActive="active-link"
+    >
+      <mat-icon fontIcon="shopping_cart" />
+    </button>
+    <button
+      mat-icon-button
+      routerLink="/login"
+      (click)="handleLogout()"
+      [disabled]="!isLoggedIn()"
+    >
+      <mat-icon fontIcon="logout" />
+    </button>
+  </div>
+</mat-toolbar>

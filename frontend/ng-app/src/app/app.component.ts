@@ -1,29 +1,14 @@
-import { Component, signal } from '@angular/core';
-import { MatButton } from '@angular/material/button';
-import { MatToolbar } from '@angular/material/toolbar';
-import { NgOptimizedImage } from '@angular/common';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    MatButton,
-    MatToolbar,
-    NgOptimizedImage,
-    RouterLink,
-    RouterOutlet,
-    RouterLinkActive,
-  ],
+  imports: [RouterOutlet, ToolbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  public readonly loggedIn = signal<boolean>(false);
-
   public readonly title: string = 'ng-app';
-
-  public handleLogin(): void {
-    this.loggedIn.set(!this.loggedIn());
-  }
 }

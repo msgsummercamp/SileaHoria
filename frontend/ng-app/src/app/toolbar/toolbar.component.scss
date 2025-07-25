@@ -1,0 +1,26 @@
+@use "@angular/material" as mat;
+
+mat-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--mat-sys-primary-container);
+}
+
+button {
+  text-decoration: none;
+  margin: 0.2rem;
+  color: var(--mat-sys-primary-container);
+  background-color: var(--mat-sys-primary);
+}
+
+.active-link {
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
+}
