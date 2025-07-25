@@ -21,7 +21,11 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './toolbar.component.scss',
 })
 export class ToolbarComponent {
-  protected readonly authService = inject(AuthService);
+  private readonly authService = inject(AuthService);
+
+  public isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
 
   public handleLogout(): void {
     this.authService.logout();

@@ -9,7 +9,7 @@
       mat-icon-button
       routerLink="/account"
       routerLinkActive="active-link"
-      [authStatus]="authService.isLoggedIn()"
+      [authStatus]="isLoggedIn()"
     >
       <mat-icon fontIcon="account_circle" />
     </button>
@@ -24,7 +24,7 @@
       mat-icon-button
       routerLink="/login"
       (click)="handleLogout()"
-      [disabled]="!this.authService.isLoggedIn()"
+      [disabled]="!isLoggedIn()"
     >
       <mat-icon fontIcon="logout" />
     </button>
