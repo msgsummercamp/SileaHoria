@@ -21,5 +21,6 @@ button {
 }
 
 .active-link {
-  background-color: var(--mat-sys-secondary);
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
 }
