@@ -1,7 +1,6 @@
-import { Component, inject, Signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { AuthService } from '../services/auth.service';
-import { AuthDirective } from '../auth.directive';
 import {
   FormControl,
   NonNullableFormBuilder,
@@ -18,7 +17,6 @@ import {
   MatCard,
   MatCardActions,
   MatCardContent,
-  MatCardFooter,
   MatCardHeader,
   MatCardTitle,
 } from '@angular/material/card';
@@ -32,7 +30,6 @@ type LogInForm = {
   selector: 'app-login',
   imports: [
     MatButton,
-    AuthDirective,
     ReactiveFormsModule,
     MatInput,
     MatFormField,
@@ -43,7 +40,6 @@ type LogInForm = {
     MatCardTitle,
     MatCardContent,
     MatCardActions,
-    MatCardFooter,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -62,8 +58,6 @@ export class LoginComponent {
       Validators.minLength(6),
     ]),
   });
-
-  public readonly loggedIn: Signal<boolean> = this.authService.loggedIn;
 
   public onFormSubmit() {
     if (this.loginFormGroup.valid) {

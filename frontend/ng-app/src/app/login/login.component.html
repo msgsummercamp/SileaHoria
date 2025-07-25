@@ -14,12 +14,12 @@
         }
 
         @if (loginFormGroup.controls.email.hasError("email")) {
-          <mat-error> A valid email is required. </mat-error>
+          <mat-error> Email must contain an &#64;. </mat-error>
         }
       </mat-form-field>
 
       <mat-form-field subscriptSizing="dynamic">
-        <mat-label>Password:</mat-label>
+        <mat-label>Password</mat-label>
         <input matInput type="password" formControlName="password" />
 
         @if (loginFormGroup.controls.password.hasError("required")) {
@@ -33,17 +33,9 @@
     </mat-card-content>
 
     <mat-card-actions>
-      <button
-        mat-flat-button
-        type="submit"
-        [disabled]="loginFormGroup.invalid || loggedIn()"
-      >
+      <button mat-flat-button type="submit" [disabled]="loginFormGroup.invalid">
         Login
       </button>
     </mat-card-actions>
-
-    <mat-card-footer>
-      <p [authStatus]="loggedIn()">You are logged in!</p>
-    </mat-card-footer>
   </form>
 </mat-card>
