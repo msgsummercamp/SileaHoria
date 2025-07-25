@@ -2,6 +2,7 @@ package com.example.rest_api.configuration;
 
 import com.example.rest_api.tokenHelpers.JwtAuthenticationEntryPoint;
 import com.example.rest_api.tokenHelpers.JwtAuthenticationFilter;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,19 +20,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@AllArgsConstructor
 public class SecurityConfig {
-
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final JwtAuthenticationFilter authenticationFilter;
-
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService,
-                         JwtAuthenticationEntryPoint authenticationEntryPoint,
-                         JwtAuthenticationFilter authenticationFilter) {
-        this.customUserDetailsService = customUserDetailsService;
-        this.authenticationEntryPoint = authenticationEntryPoint;
-        this.authenticationFilter = authenticationFilter;
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
