@@ -5,16 +5,16 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
+  public readonly isLoggedIn = signal(false);
+
   private router = inject(Router);
 
-  public readonly loggedIn = signal(false);
-
   public login() {
-    this.loggedIn.set(true);
+    this.isLoggedIn.set(true);
     this.router.navigate(['/home']);
   }
 
   public logout() {
-    this.loggedIn.set(false);
+    this.isLoggedIn.set(false);
   }
 }

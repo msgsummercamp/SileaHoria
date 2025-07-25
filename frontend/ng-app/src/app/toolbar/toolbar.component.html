@@ -1,32 +1,32 @@
 <mat-toolbar>
-  <div class="left">
+  <div>
     <button mat-flat-button routerLink="/home" routerLinkActive="active-link">
       Home
     </button>
   </div>
-  <div class="right">
+  <div>
     <button
-      mat-flat-button
+      mat-icon-button
       routerLink="/account"
       routerLinkActive="active-link"
-      [authStatus]="authService.loggedIn()"
+      [authStatus]="authService.isLoggedIn()"
     >
-      <img ngSrc="account_box.png" alt="account" height="20" width="20" />
+      <mat-icon fontIcon="account_circle" />
     </button>
     <button
-      mat-flat-button
+      mat-icon-button
       routerLink="/shopping-cart"
       routerLinkActive="active-link"
     >
-      <img ngSrc="shopping_cart.png" alt="cart" height="20" width="20" />
+      <mat-icon fontIcon="shopping_cart" />
     </button>
     <button
-      mat-flat-button
+      mat-icon-button
       routerLink="/login"
       (click)="handleLogout()"
-      [disabled]="!this.authService.loggedIn()"
+      [disabled]="!this.authService.isLoggedIn()"
     >
-      <img ngSrc="logout.png" alt="account" height="20" width="20" />
+      <mat-icon fontIcon="logout" />
     </button>
   </div>
 </mat-toolbar>

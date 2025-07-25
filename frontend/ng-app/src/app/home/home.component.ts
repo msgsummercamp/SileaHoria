@@ -15,12 +15,12 @@ type DogResponse = {
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  private readonly httpClient: HttpClient = inject(HttpClient);
-
   public readonly data = signal('');
   public readonly error = signal('');
   public readonly loading = signal(false);
   public readonly timesClicked = signal(0);
+
+  private readonly httpClient: HttpClient = inject(HttpClient);
 
   public loadRandomDogImage(): void {
     this.loading.set(true);
