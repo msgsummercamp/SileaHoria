@@ -1,1 +1,4 @@
-<p>login works!</p>
+<h1>Login/Logout</h1>
+<button mat-flat-button (click)="handleLogin()">Login</button>
+<button mat-flat-button (click)="handleLogout()">Logout</button>
+<p [authStatus]="loggedIn()">You are logged in!</p>
